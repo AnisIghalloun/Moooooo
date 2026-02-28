@@ -362,23 +362,32 @@ const PublishPage = () => {
     version: '1.20.1',
     author: 'Steve',
     category: 'Utility',
-    imageUrl: ''
+    imageUrl: '',
+    adminPassword: ''
   });
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setError(null);
     try {
       const res = await fetch('/api/mods', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
+      
+      const data = await res.json();
+      
       if (res.ok) {
         navigate('/');
+      } else {
+        setError(data.error || 'Failed to publish mod');
       }
     } catch (err) {
+      setError('An unexpected error occurred');
       console.error(err);
     } finally {
       setSubmitting(false);
@@ -389,10 +398,16 @@ const PublishPage = () => {
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="mb-12">
         <h1 className="text-4xl font-black text-white mb-4">Publish Your Mod</h1>
-        <p className="text-white/60">Share your creation with millions of players worldwide.</p>
+        <p className="text-white/60">Share your creation with millions of players worldwide. <span className="text-emerald-500 font-bold">(Admin Only)</span></p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8 bg-[#141414] border border-white/5 rounded-3xl p-8">
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-4 rounded-xl text-sm font-medium">
+            {error}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-medium text-white/60">Mod Name</label>
@@ -466,6 +481,20 @@ const PublishPage = () => {
               onChange={e => setFormData({...formData, imageUrl: e.target.value})}
               className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
               placeholder="https://..."
+            />
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-white/5">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-emerald-500">Admin Password</label>
+            <input 
+              required
+              type="password" 
+              value={formData.adminPassword}
+              onChange={e => setFormData({...formData, adminPassword: e.target.value})}
+              className="w-full bg-emerald-500/5 border border-emerald-500/20 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500 transition-all"
+              placeholder="Enter password to publish"
             />
           </div>
         </div>

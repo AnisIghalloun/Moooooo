@@ -111,7 +111,12 @@ async function startServer() {
   });
 
   app.post("/api/mods", (req, res) => {
-    const { name, description, longDescription, version, author, category, imageUrl } = req.body;
+    const { name, description, longDescription, version, author, category, imageUrl, adminPassword } = req.body;
+    
+    if (adminPassword !== (process.env.ADMIN_PASSWORD || "ANIS2006")) {
+      return res.status(403).json({ error: "Incorrect admin password" });
+    }
+
     const id = uuidv4();
     const insert = db.prepare(`
       INSERT INTO mods (id, name, description, longDescription, version, author, category, imageUrl)
