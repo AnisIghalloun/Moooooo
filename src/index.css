@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0a0a0a] text-white antialiased;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Markdown styling */
+.prose-emerald {
+  --tw-prose-body: rgba(255, 255, 255, 0.7);
+  --tw-prose-headings: #fff;
+  --tw-prose-links: #10b981;
+  --tw-prose-bold: #fff;
+  --tw-prose-counters: #10b981;
+  --tw-prose-bullets: #10b981;
+  --tw-prose-hr: rgba(255, 255, 255, 0.1);
+  --tw-prose-quotes: #fff;
+  --tw-prose-quote-borders: #10b981;
+  --tw-prose-captions: #6b7280;
+  --tw-prose-code: #fff;
+  --tw-prose-pre-code: #fff;
+  --tw-prose-pre-bg: #1f2937;
+  --tw-prose-th-borders: #374151;
+  --tw-prose-td-borders: #1f2937;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  @apply font-black tracking-tight mt-8 mb-4;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose ul {
+  @apply list-disc pl-6 mb-4 space-y-2;
+}
