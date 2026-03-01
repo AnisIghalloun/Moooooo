@@ -17,10 +17,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+              <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
                 <LayoutGrid className="w-5 h-5 text-black" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">MineMod Hub</span>
+              <span className="text-xl font-bold tracking-tight text-white">CraftUp</span>
             </Link>
             <div className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Browse</Link>
@@ -29,11 +29,11 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center gap-4">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 group-focus-within:text-emerald-500 transition-colors" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 group-focus-within:text-amber-500 transition-colors" />
               <input 
                 type="text" 
                 placeholder="Search mods..." 
-                className="bg-white/5 border border-white/10 rounded-full py-1.5 pl-10 pr-4 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all w-64"
+                className="bg-white/5 border border-white/10 rounded-full py-1.5 pl-10 pr-4 text-sm focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all w-64"
               />
             </div>
             <button className="p-2 text-white/60 hover:text-white transition-colors">
@@ -81,7 +81,7 @@ const ModCard = ({ mod }: { mod: Mod }) => {
     <Link to={`/mod/${mod.id}`} className="group block">
       <motion.div 
         whileHover={{ y: -4 }}
-        className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all"
+        className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-all"
       >
         <div className="aspect-video relative overflow-hidden">
           <img 
@@ -96,7 +96,7 @@ const ModCard = ({ mod }: { mod: Mod }) => {
         </div>
         <div className="p-5">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="font-bold text-lg text-white group-hover:text-emerald-400 transition-colors">{mod.name}</h3>
+            <h3 className="font-bold text-lg text-white group-hover:text-amber-400 transition-colors">{mod.name}</h3>
             <span className="text-xs text-white/40 font-mono">{mod.version}</span>
           </div>
           <p className="text-sm text-white/60 line-clamp-2 mb-4 h-10">{mod.description}</p>
@@ -105,7 +105,7 @@ const ModCard = ({ mod }: { mod: Mod }) => {
               <User className="w-3 h-3" />
               <span>{mod.author}</span>
             </div>
-            <div className="flex items-center gap-1 text-xs text-emerald-500 font-medium">
+            <div className="flex items-center gap-1 text-xs text-amber-500 font-medium">
               <Download className="w-3 h-3" />
               <span>{(mod.downloads / 1000).toFixed(1)}k</span>
             </div>
@@ -156,7 +156,7 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight"
         >
-          Elevate Your <span className="text-emerald-500">Minecraft</span>
+          Elevate Your <span className="text-amber-500">Minecraft</span>
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
@@ -176,7 +176,7 @@ const HomePage = () => {
             onClick={() => setSelectedCategory(null)}
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap",
-              !selectedCategory ? "bg-emerald-500 text-black" : "bg-white/5 text-white/60 hover:bg-white/10"
+              !selectedCategory ? "bg-amber-500 text-black" : "bg-white/5 text-white/60 hover:bg-white/10"
             )}
           >
             All Mods
@@ -187,7 +187,7 @@ const HomePage = () => {
               onClick={() => setSelectedCategory(cat)}
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap",
-                selectedCategory === cat ? "bg-emerald-500 text-black" : "bg-white/5 text-white/60 hover:bg-white/10"
+                selectedCategory === cat ? "bg-amber-500 text-black" : "bg-white/5 text-white/60 hover:bg-white/10"
               )}
             >
               {cat}
@@ -201,7 +201,7 @@ const HomePage = () => {
             placeholder="Search mods..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#141414] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+            className="w-full bg-[#141414] border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-amber-500/50 transition-all"
           />
         </div>
       </div>
@@ -271,7 +271,7 @@ const ModDetailsPage = () => {
     }
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" /></div>;
   if (!mod) return null;
 
   return (
@@ -297,7 +297,7 @@ const ModDetailsPage = () => {
           
           <div className="bg-[#141414] border border-white/5 rounded-3xl p-8">
             <h2 className="text-2xl font-bold text-white mb-6">Description</h2>
-            <div className="prose prose-invert max-w-none prose-emerald">
+            <div className="prose prose-invert max-w-none prose-amber">
               <Markdown>{mod.longDescription || mod.description}</Markdown>
             </div>
           </div>
@@ -309,7 +309,7 @@ const ModDetailsPage = () => {
               <h1 className="text-3xl font-black text-white mb-2">{mod.name}</h1>
               <div className="flex items-center gap-2 text-white/40 text-sm">
                 <span>by</span>
-                <span className="text-emerald-500 font-medium">{mod.author}</span>
+                <span className="text-amber-500 font-medium">{mod.author}</span>
               </div>
             </div>
 
@@ -335,7 +335,7 @@ const ModDetailsPage = () => {
             <button 
               onClick={handleDownload}
               disabled={downloading}
-              className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20"
+              className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/20"
             >
               {downloading ? (
                 <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
@@ -398,7 +398,7 @@ const PublishPage = () => {
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="mb-12">
         <h1 className="text-4xl font-black text-white mb-4">Publish Your Mod</h1>
-        <p className="text-white/60">Share your creation with millions of players worldwide. <span className="text-emerald-500 font-bold">(Admin Only)</span></p>
+        <p className="text-white/60">Share your creation with millions of players worldwide. <span className="text-amber-500 font-bold">(Admin Only)</span></p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8 bg-[#141414] border border-white/5 rounded-3xl p-8">
@@ -416,7 +416,7 @@ const PublishPage = () => {
               type="text" 
               value={formData.name}
               onChange={e => setFormData({...formData, name: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
               placeholder="e.g. Super Craft"
             />
           </div>
@@ -427,7 +427,7 @@ const PublishPage = () => {
               type="text" 
               value={formData.version}
               onChange={e => setFormData({...formData, version: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
               placeholder="1.20.1"
             />
           </div>
@@ -440,7 +440,7 @@ const PublishPage = () => {
             type="text" 
             value={formData.description}
             onChange={e => setFormData({...formData, description: e.target.value})}
-            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
             placeholder="A brief summary of what your mod does"
           />
         </div>
@@ -452,7 +452,7 @@ const PublishPage = () => {
             rows={8}
             value={formData.longDescription}
             onChange={e => setFormData({...formData, longDescription: e.target.value})}
-            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all resize-none"
+            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all resize-none"
             placeholder="# About this mod..."
           />
         </div>
@@ -463,7 +463,7 @@ const PublishPage = () => {
             <select 
               value={formData.category}
               onChange={e => setFormData({...formData, category: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all appearance-none"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all appearance-none"
             >
               <option value="Optimization">Optimization</option>
               <option value="Map">Map</option>
@@ -479,7 +479,7 @@ const PublishPage = () => {
               type="url" 
               value={formData.imageUrl}
               onChange={e => setFormData({...formData, imageUrl: e.target.value})}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
               placeholder="https://..."
             />
           </div>
@@ -487,13 +487,13 @@ const PublishPage = () => {
 
         <div className="pt-6 border-t border-white/5">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-emerald-500">Admin Password</label>
+            <label className="text-sm font-medium text-amber-500">Admin Password</label>
             <input 
               required
               type="password" 
               value={formData.adminPassword}
               onChange={e => setFormData({...formData, adminPassword: e.target.value})}
-              className="w-full bg-emerald-500/5 border border-emerald-500/20 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-emerald-500 transition-all"
+              className="w-full bg-amber-500/5 border border-amber-500/20 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500 transition-all"
               placeholder="Enter password to publish"
             />
           </div>
@@ -502,7 +502,7 @@ const PublishPage = () => {
         <button 
           type="submit"
           disabled={submitting}
-          className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20"
+          className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/20"
         >
           {submitting ? (
             <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
@@ -523,7 +523,7 @@ const PublishPage = () => {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-emerald-500/30">
+      <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-amber-500/30">
         <Navbar />
         <main>
           <Routes>
@@ -535,11 +535,16 @@ export default function App() {
         
         <footer className="border-t border-white/5 py-12 mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-emerald-500 rounded flex items-center justify-center">
-                <LayoutGrid className="w-4 h-4 text-black" />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 bg-amber-500 rounded flex items-center justify-center">
+                  <LayoutGrid className="w-4 h-4 text-black" />
+                </div>
+                <span className="font-bold tracking-tight text-white/80">CraftUp</span>
               </div>
-              <span className="font-bold tracking-tight text-white/80">MineMod Hub</span>
+              <p className="text-xs text-white/40">
+                Created by <a href="https://www.facebook.com/anis.ighalloun.5" target="_blank" rel="noopener noreferrer" className="text-amber-500 hover:underline">Anis ighalloun</a>
+              </p>
             </div>
             <div className="flex gap-8 text-sm text-white/40">
               <a href="#" className="hover:text-white transition-colors">Terms</a>
@@ -547,7 +552,7 @@ export default function App() {
               <a href="#" className="hover:text-white transition-colors">Discord</a>
               <a href="#" className="hover:text-white transition-colors">Twitter</a>
             </div>
-            <p className="text-xs text-white/20">© 2024 MineMod Hub. Not an official Minecraft product.</p>
+            <p className="text-xs text-white/20">© 2024 CraftUp. Not an official Minecraft product.</p>
           </div>
         </footer>
       </div>

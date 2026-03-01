@@ -21,16 +21,16 @@
 }
 
 /* Markdown styling */
-.prose-emerald {
+.prose-amber {
   --tw-prose-body: rgba(255, 255, 255, 0.7);
   --tw-prose-headings: #fff;
-  --tw-prose-links: #10b981;
+  --tw-prose-links: #f59e0b;
   --tw-prose-bold: #fff;
-  --tw-prose-counters: #10b981;
-  --tw-prose-bullets: #10b981;
+  --tw-prose-counters: #f59e0b;
+  --tw-prose-bullets: #f59e0b;
   --tw-prose-hr: rgba(255, 255, 255, 0.1);
   --tw-prose-quotes: #fff;
-  --tw-prose-quote-borders: #10b981;
+  --tw-prose-quote-borders: #f59e0b;
   --tw-prose-captions: #6b7280;
   --tw-prose-code: #fff;
   --tw-prose-pre-code: #fff;
