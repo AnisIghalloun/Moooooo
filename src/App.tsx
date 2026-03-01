@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Search, Plus, Download, User, Menu, X, ChevronRight, LayoutGrid, List, Filter, ArrowLeft, Send } from 'lucide-react';
+import { Search, Plus, Download, User, Menu, X, ChevronRight, LayoutGrid, List, Filter, ArrowLeft, Send, Cloud } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
 import { cn } from './lib/utils';
@@ -373,6 +373,74 @@ const PublishPage = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [googleToken, setGoogleToken] = useState<string | null>(null);
+
+  // Load Google API scripts
+  useEffect(() => {
+    const script1 = document.createElement('script');
+    script1.src = 'https://apis.google.com/js/api.js';
+    script1.async = true;
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.src = 'https://accounts.google.com/gsi/client';
+    script2.async = true;
+    document.body.appendChild(script2);
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'GOOGLE_AUTH_SUCCESS') {
+        setGoogleToken(event.data.tokens.access_token);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
+
+  const handleGoogleAuth = async () => {
+    try {
+      const res = await fetch('/api/auth/google/url');
+      const { url } = await res.json();
+      window.open(url, 'google_auth', 'width=600,height=700');
+    } catch (err) {
+      console.error(err);
+      setError('Failed to start Google authentication');
+    }
+  };
+
+  const openPicker = (targetField: 'imageUrl' | 'downloadUrl') => {
+    if (!googleToken) {
+      handleGoogleAuth();
+      return;
+    }
+
+    // @ts-ignore
+    const gapi = window.gapi;
+    if (!gapi) return;
+
+    gapi.load('picker', () => {
+      // @ts-ignore
+      const picker = new google.picker.PickerBuilder()
+        .addView(new google.picker.DocsView().setIncludeFolders(true))
+        .setOAuthToken(googleToken)
+        .setDeveloperKey(import.meta.env.VITE_GOOGLE_API_KEY || '')
+        .setCallback((data: any) => {
+          if (data.action === 'picked') {
+            const file = data.docs[0];
+            const fileId = file.id;
+            // Convert to direct link
+            const directLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            setFormData(prev => ({ ...prev, [targetField]: directLink }));
+          }
+        })
+        .build();
+      picker.setVisible(true);
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -480,7 +548,17 @@ const PublishPage = () => {
             </select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white/60">Cover Image URL</label>
+            <label className="text-sm font-medium text-white/60 flex justify-between items-center">
+              Cover Image URL
+              <button 
+                type="button"
+                onClick={() => openPicker('imageUrl')}
+                className="text-[10px] flex items-center gap-1 bg-white/5 hover:bg-white/10 px-2 py-1 rounded transition-colors text-amber-500"
+              >
+                <Cloud className="w-3 h-3" />
+                From Drive
+              </button>
+            </label>
             <input 
               type="url" 
               value={formData.imageUrl}
@@ -490,7 +568,17 @@ const PublishPage = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white/60">Download URL (Direct link to .jar)</label>
+            <label className="text-sm font-medium text-white/60 flex justify-between items-center">
+              Download URL (Direct link to .jar)
+              <button 
+                type="button"
+                onClick={() => openPicker('downloadUrl')}
+                className="text-[10px] flex items-center gap-1 bg-white/5 hover:bg-white/10 px-2 py-1 rounded transition-colors text-amber-500"
+              >
+                <Cloud className="w-3 h-3" />
+                From Drive
+              </button>
+            </label>
             <input 
               type="url" 
               value={formData.downloadUrl}
