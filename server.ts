@@ -22,16 +22,24 @@ db.exec(`
     category TEXT,
     downloads INTEGER DEFAULT 0,
     imageUrl TEXT,
+    downloadUrl TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
+
+// Ensure downloadUrl column exists if table was created before
+try {
+  db.exec("ALTER TABLE mods ADD COLUMN downloadUrl TEXT");
+} catch (e) {
+  // Column already exists or other error
+}
 
 // Seed data if empty
 const count = db.prepare("SELECT COUNT(*) as count FROM mods").get() as { count: number };
 if (count.count === 0) {
   const insert = db.prepare(`
-    INSERT INTO mods (id, name, description, longDescription, version, author, category, downloads, imageUrl)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO mods (id, name, description, longDescription, version, author, category, downloads, imageUrl, downloadUrl)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   insert.run(
@@ -43,7 +51,8 @@ if (count.count === 0) {
     "sp614x",
     "Optimization",
     1500000,
-    "https://picsum.photos/seed/optifine/800/400"
+    "https://picsum.photos/seed/optifine/800/400",
+    "https://optifine.net/downloads"
   );
 
   insert.run(
@@ -55,7 +64,8 @@ if (count.count === 0) {
     "techbrew",
     "Map",
     800000,
-    "https://picsum.photos/seed/journeymap/800/400"
+    "https://picsum.photos/seed/journeymap/800/400",
+    "https://www.curseforge.com/minecraft/mc-mods/journeymap"
   );
 
   insert.run(
@@ -67,7 +77,8 @@ if (count.count === 0) {
     "mezz",
     "Utility",
     2500000,
-    "https://picsum.photos/seed/jei/800/400"
+    "https://picsum.photos/seed/jei/800/400",
+    "https://www.curseforge.com/minecraft/mc-mods/jei"
   );
 }
 
@@ -111,7 +122,7 @@ async function startServer() {
   });
 
   app.post("/api/mods", (req, res) => {
-    const { name, description, longDescription, version, author, category, imageUrl, adminPassword } = req.body;
+    const { name, description, longDescription, version, author, category, imageUrl, downloadUrl, adminPassword } = req.body;
     
     if (adminPassword !== (process.env.ADMIN_PASSWORD || "ANIS2006")) {
       return res.status(403).json({ error: "Incorrect admin password" });
@@ -119,10 +130,10 @@ async function startServer() {
 
     const id = uuidv4();
     const insert = db.prepare(`
-      INSERT INTO mods (id, name, description, longDescription, version, author, category, imageUrl)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO mods (id, name, description, longDescription, version, author, category, imageUrl, downloadUrl)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    insert.run(id, name, description, longDescription, version, author, category, imageUrl || `https://picsum.photos/seed/${id}/800/400`);
+    insert.run(id, name, description, longDescription, version, author, category, imageUrl || `https://picsum.photos/seed/${id}/800/400`, downloadUrl || "");
     res.status(201).json({ id });
   });
 

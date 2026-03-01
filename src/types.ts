@@ -7,6 +7,7 @@ export interface Mod {
   category: string;
   downloads: number;
   imageUrl: string;
+  downloadUrl?: string;
   createdAt: string;
   longDescription?: string;
 }

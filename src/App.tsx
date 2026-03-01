@@ -259,13 +259,18 @@ const ModDetailsPage = () => {
     try {
       await fetch(`/api/mods/${mod.id}/download`, { method: 'POST' });
       setMod({ ...mod, downloads: mod.downloads + 1 });
-      // Simulate file download
-      const blob = new Blob(["Mock mod file content"], { type: "text/plain" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${mod.name.replace(/\s+/g, '_')}_v${mod.version}.jar`;
-      a.click();
+      
+      if (mod.downloadUrl && mod.downloadUrl.startsWith('http')) {
+        window.open(mod.downloadUrl, '_blank');
+      } else {
+        // Simulate file download
+        const blob = new Blob(["Mock mod file content"], { type: "text/plain" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${mod.name.replace(/\s+/g, '_')}_v${mod.version}.jar`;
+        a.click();
+      }
     } finally {
       setDownloading(false);
     }
@@ -363,6 +368,7 @@ const PublishPage = () => {
     author: 'Steve',
     category: 'Utility',
     imageUrl: '',
+    downloadUrl: '',
     adminPassword: ''
   });
   const [submitting, setSubmitting] = useState(false);
@@ -479,6 +485,16 @@ const PublishPage = () => {
               type="url" 
               value={formData.imageUrl}
               onChange={e => setFormData({...formData, imageUrl: e.target.value})}
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
+              placeholder="https://..."
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-white/60">Download URL (Direct link to .jar)</label>
+            <input 
+              type="url" 
+              value={formData.downloadUrl}
+              onChange={e => setFormData({...formData, downloadUrl: e.target.value})}
               className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500/50 transition-all"
               placeholder="https://..."
             />
